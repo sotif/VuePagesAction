@@ -37,7 +37,7 @@ runs:
               if [ "none" !=  ${{ inputs.cname }} ]; then echo '${{ inputs.cname }}' > CNAME; fi
               git config --global user.email "${{ inputs.gitemail }}"
               git config --global user.name "${{ inputs.gitname }}"
-              git clone -b gh-pages https://github.com/${{ inputs.username }}/${{ inputs.reponame }}.git old_dist
+              git clone -b gh-pages https://github.com/${{ inputs.username }}/${{ inputs.reponame }}.git dist_old
               npm ci
               npm run build
               cp -r dist/* dist_old
