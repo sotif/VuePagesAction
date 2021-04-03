@@ -34,13 +34,14 @@ runs:
   steps:
       - name: Build Vue
         run: |
-              npm ci
-              npm run build
-              cd dist
               if [ "none" !=  ${{ inputs.cname }} ]; then echo '${{ inputs.cname }}' > CNAME; fi
               git config --global user.email "${{ inputs.gitemail }}"
               git config --global user.name "${{ inputs.gitname }}"
-              git init
+              git clone -b gh-pages https://github.com/${{ inputs.username }}/${{ inputs.reponame }}.git old_dist
+              npm ci
+              npm run build
+              cp -r dist/* dist_old
+              cd dist_old
               git add -A
               git commit -m '${{ inputs.gitmsg }}'
               git push -f https://${{ inputs.username }}:${{ inputs.token }}@github.com/${{ inputs.username }}/${{ inputs.reponame }}.git master:gh-pages
